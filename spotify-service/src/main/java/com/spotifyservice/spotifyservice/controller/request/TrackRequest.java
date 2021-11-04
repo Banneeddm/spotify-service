@@ -1,15 +1,13 @@
-package com.spotifyservice.spotifyservice.domain;
+package com.spotifyservice.spotifyservice.controller.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class Track {
+public class TrackRequest {
 
     private Long id;
     private String name;
@@ -17,4 +15,5 @@ public class Track {
     private Long idAlbum;
     private Long reproduction;
     private Double duration;
+
 }

@@ -1,4 +1,4 @@
-package com.spotifyservice.spotifyservice.domain;
+package com.spotifyservice.spotifyservice.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class Album {
+public class AlbumRequest {
 
     private Long idAlbum;
     private Long idArtist;

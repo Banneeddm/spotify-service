@@ -1,16 +1,32 @@
 package com.spotifyservice.spotifyservice.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
+import com.spotifyservice.spotifyservice.domain.Album;
+import com.spotifyservice.spotifyservice.service.AlbumService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
 
-    @GetMapping("/")
-    public String retriveAlbum(){
+    @Autowired
+    private AlbumService albumService;
 
-        return "Esto es un album.";
+    @GetMapping("/{id}")
+    public Album retriveAlbum(@PathVariable Long id){
+        return albumService.getAlbum(id);
+    }
+
+    @GetMapping("/")
+    public List<Album> retriveAlbums(){
+        return albumService.getAlbums();
+    }
+
+    @PostMapping(path = "/")
+    public Album createAlbum(@RequestBody AlbumRequest album) {
+        return albumService.createAlbum(album);
     }
 }
