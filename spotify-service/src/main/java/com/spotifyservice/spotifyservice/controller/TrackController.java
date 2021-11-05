@@ -15,12 +15,17 @@ public class TrackController {
     @Autowired
     private TrackService trackService;
 
+    @GetMapping(path = "/")
+    public String initial(){
+        return "Esto es un track";
+    }
+
     @GetMapping("/{id}")
     public Track retriveTrack(@PathVariable Long id){
         return trackService.getTrack(id);
     }
 
-    @GetMapping("/")
+    @GetMapping("/rank")
     public List<Track> retriveTracks(){
         return trackService.getTracks();
     }

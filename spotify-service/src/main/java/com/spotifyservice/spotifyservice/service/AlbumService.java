@@ -6,6 +6,7 @@ import com.spotifyservice.spotifyservice.domain.AlbumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -38,4 +39,5 @@ public class AlbumService {
     public Album getidAlbum(AlbumRequest albumRequest){
         return Album.builder().idAlbum(albumRequest.getIdAlbum()).build();
     }
+
 }

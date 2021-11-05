@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.*;
 
 
+
 @Configuration
 public class AlbumConfiguration {
 
@@ -20,6 +21,7 @@ public class AlbumConfiguration {
     public Album getAlbum(){
         return album1;
     }
+
 
     @Bean(name = "albums")
     public List<Album> getAlbums(){

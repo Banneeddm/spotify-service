@@ -1,5 +1,6 @@
 package com.spotifyservice.spotifyservice.domain;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class Album {
+public class Spotify {
 
-    private Long idAlbum;
-    private Long idArtist;
-    private String name;
+    private Album album;
 }

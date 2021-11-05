@@ -15,7 +15,7 @@ public class TrackService {
     @Autowired
     private TrackMapper trackMapper;
 
-    @Qualifier("tracks")
+    @Qualifier("ranks")
     @Autowired
     private List<Track> tracks;
 
