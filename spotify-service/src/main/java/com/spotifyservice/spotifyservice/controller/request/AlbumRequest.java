@@ -1,5 +1,6 @@
 package com.spotifyservice.spotifyservice.controller.request;
 
+import com.spotifyservice.spotifyservice.domain.Artist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -31,8 +31,8 @@ public class ArtistController {
     }
 
     @GetMapping("/{id}")
-    public Artist retriveArtist(@PathVariable Long id){
-        return artistService.getArtist(id);
+    public Artist retriveArtist(){
+        return artistService.getArtist();
     }
 
     @GetMapping("/rank")

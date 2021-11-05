@@ -35,7 +35,7 @@ public class ArtistService {
     public void calcularCantidadArtist()
     {
     }
-    public Artist getArtist(Long id){
+    public Artist getArtist(){
         return artist;
     }
     public List<Artist> getArtists(){

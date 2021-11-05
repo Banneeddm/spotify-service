@@ -4,6 +4,7 @@ import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
 import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +34,10 @@ public class TrackController {
     @PostMapping(path = "/")
     public Track createTrack(@RequestBody TrackRequest trackRequest){
         return trackService.createTrack(trackRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id){
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 }

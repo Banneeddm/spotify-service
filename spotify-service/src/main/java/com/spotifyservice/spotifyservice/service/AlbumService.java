@@ -6,12 +6,14 @@ import com.spotifyservice.spotifyservice.domain.AlbumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 @Service
 public class AlbumService {
+
+    @Autowired
+    private List<Album> albumsnew;
 
     @Autowired
     private AlbumMapper albumMapper;
@@ -24,7 +26,7 @@ public class AlbumService {
     @Autowired
     private Album album;
 
-    public Album getAlbum(Long id){
+    public Album getAlbum(){
         return album;
     }
 

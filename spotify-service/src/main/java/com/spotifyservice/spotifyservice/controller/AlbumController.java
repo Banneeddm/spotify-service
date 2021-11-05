@@ -3,8 +3,8 @@ package com.spotifyservice.spotifyservice.controller;
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.domain.Album;
 import com.spotifyservice.spotifyservice.service.AlbumService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +23,8 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public Album retriveAlbum(@PathVariable Long id){
-        return albumService.getAlbum(id);
+    public Album retriveAlbum(){
+        return albumService.getAlbum();
     }
 
     @GetMapping("/")
@@ -35,5 +35,10 @@ public class AlbumController {
     @PostMapping(path = "/")
     public Album createAlbum(@RequestBody AlbumRequest album) {
         return albumService.createAlbum(album);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id){
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 }
