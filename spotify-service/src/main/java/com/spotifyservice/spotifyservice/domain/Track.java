@@ -13,8 +13,8 @@ public class Track {
 
     private Long id;
     private String name;
-    private Artist idArtist;
-    private Album idAlbum;
+    private Long idArtist;
+    private Long idAlbum;
     private Long reproduction;
     private Double duration;
 }

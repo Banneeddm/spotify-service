@@ -9,46 +9,54 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtistService {
 
+    List<Artist> listaArtist = new ArrayList<Artist>();
+
+    @Autowired
+    private TrackService trackService;
+
     @Autowired
     private ArtistMapper artistMapper;
 
+    public void initArtist(){
+        if (listaArtist.isEmpty()) {
+            ArtistRequest artis1 = new ArtistRequest();
+            artis1.setIdArtist(1L);
+            artis1.setName("Artista 1");
+            artis1.setGenre("Genre 1");
+            artis1.setImage("Image 1");
 
-    @Qualifier("rank")
-    @Autowired
-    private List<Artist> artists;
-
-    @Qualifier("ArtistTracks")
-    @Autowired
-    private List<Track> tracks;
-
-
-    @Qualifier("/{idArtist}")
-    @Autowired
-    private Artist artist;
-
-    public void calcularCantidadArtist()
-    {
+            createArtist(artis1);
+        }
     }
-    public Artist getArtist(){
-        return artist;
+
+
+    public Artist artistInit(){
+        for(Artist artist: listaArtist){
+            return artist;
+        }
+        return null;
+    }
+
+    public List<Artist> getArtist(Long id){
+        return listaArtist.stream().filter(x -> Objects.equals(x.getIdArtist(), id)).collect(Collectors.toList());
     }
     public List<Artist> getArtists(){
-        return artists;
+        return listaArtist;
     }
-    public Artist createArtist(ArtistRequest artistRequest){
-        return artistMapper.apply(artistRequest);
+    public List<Artist> createArtist(ArtistRequest artistRequest){
+        listaArtist.add(artistMapper.apply(artistRequest));
+        return listaArtist;
     }
-    public Artist getIdArtist(ArtistRequest artistRequest){
-        return Artist.builder().build();
-    }
+
     public List<Track> getTracks(){
-        return tracks;
+        return trackService.getTracks();
     }
 
 }

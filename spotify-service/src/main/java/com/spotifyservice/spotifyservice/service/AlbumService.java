@@ -3,43 +3,48 @@ package com.spotifyservice.spotifyservice.service;
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.domain.Album;
 import com.spotifyservice.spotifyservice.domain.AlbumMapper;
+import com.spotifyservice.spotifyservice.domain.Artist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 
 @Service
 public class AlbumService {
 
-    @Autowired
-    private List<Album> albumsnew;
+
+    List<Album> listaAlbums = new ArrayList<Album>();
+    ArtistService artistService;
+
 
     @Autowired
     private AlbumMapper albumMapper;
 
-    @Qualifier("albums")
-    @Autowired
-    private List<Album> albums;
+    public void initAlbum(){
+        if (listaAlbums.isEmpty()) {
+            AlbumRequest album1 = new AlbumRequest();
+            album1.setIdAlbum(1L);
+            album1.setIdArtist(1L);
+            album1.setName("Album1");
 
-    @Qualifier("/{idAlbum}")
-    @Autowired
-    private Album album;
+            createAlbum(album1);
+        }
+    }
 
-    public Album getAlbum(){
-        return album;
+    public List<Album> getAlbum(Long id){
+        return listaAlbums.stream().filter(x -> Objects.equals(x.getIdAlbum(), id)).collect(Collectors.toList());
     }
 
     public List<Album> getAlbums(){
-        return albums;
+        return listaAlbums;
     }
 
-    public Album createAlbum(AlbumRequest request){
-        return albumMapper.apply(request);
+    public List<Album> createAlbum(AlbumRequest request){
+        listaAlbums.add(albumMapper.apply(request));
+        return listaAlbums;
     }
-
-    public Album getidAlbum(AlbumRequest albumRequest){
-        return Album.builder().idAlbum(albumRequest.getIdAlbum()).build();
-    }
-
 }

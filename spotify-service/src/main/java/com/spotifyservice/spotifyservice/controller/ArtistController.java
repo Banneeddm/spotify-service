@@ -25,35 +25,39 @@ public class ArtistController {
     @Autowired
     private TrackService trackService;
 
-    @GetMapping(path = "/")
+    //Pantalla initial.
+    @GetMapping
     public String initial(){
         return "Esto es un artist";
     }
 
+    //Filtra Artista por id.
     @GetMapping("/{id}")
-    public Artist retriveArtist(){
-        return artistService.getArtist();
+    public List<Artist> getArtist(@PathVariable("id") Long id){
+        return artistService.getArtist(id);
     }
 
+    //Muestra todos los artistas.
+    @GetMapping("/")
+    public List<Artist> artists(){
+        return artistService.getArtists();
+    }
+
+    //Muestra un rank de artistias --> Hacer de new.
     @GetMapping("/rank")
     public List<Artist> retriveArtists(){
         return artistService.getArtists();
     }
 
+    //Crea un nuevo artista.
     @PostMapping(path = "/")
-    public Artist createArtist(@RequestBody ArtistRequest artistRequest) {
+    public List<Artist> createArtist(@RequestBody ArtistRequest artistRequest) {
         return artistService.createArtist(artistRequest);
     }
 
+    //Filta por id, las canciones mas escuchadas --> Replantear.
     @GetMapping("/{id}/songs/rank")
     public List<Track> getTracks(){
         return artistService.getTracks();
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id){
-        return ResponseEntity.ok(Boolean.TRUE);
-    }
-
-
 }

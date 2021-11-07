@@ -16,7 +16,4 @@ public class Artist {
     private String genre;
     private String image;
 
-    public Long getid(){
-        return idArtist;
-    }
 }
