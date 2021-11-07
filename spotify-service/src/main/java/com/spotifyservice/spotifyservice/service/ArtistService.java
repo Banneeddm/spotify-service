@@ -5,7 +5,6 @@ import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.domain.ArtistMapper;
 import com.spotifyservice.spotifyservice.domain.Track;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ public class ArtistService {
     @Autowired
     private ArtistMapper artistMapper;
 
+
     public void initArtist(){
         if (listaArtist.isEmpty()) {
             ArtistRequest artis1 = new ArtistRequest();
@@ -34,14 +34,6 @@ public class ArtistService {
 
             createArtist(artis1);
         }
-    }
-
-
-    public Artist artistInit(){
-        for(Artist artist: listaArtist){
-            return artist;
-        }
-        return null;
     }
 
     public List<Artist> getArtist(Long id){
@@ -55,8 +47,35 @@ public class ArtistService {
         return listaArtist;
     }
 
+    public List<Artist> editArtist(Long id, ArtistRequest artistRequest){
+        Artist artistActualizado = null;
+        int aux = 0;
+        int pos = 0;
+
+        for(Artist artist: listaArtist){
+            if(artist.getIdArtist().equals(id)){
+                artistActualizado = artist;
+                aux = pos;
+            }
+            pos ++;
+        }
+
+        artistActualizado.setGenre(artistRequest.getGenre());
+        artistActualizado.setName(artistRequest.getName());
+        artistActualizado.setImage(artistRequest.getImage());
+
+        listaArtist.remove(aux);
+        listaArtist.add(aux, artistActualizado);
+
+        return listaArtist;
+    }
+
+    public List<Artist> deleteArtist(Long id){
+        listaArtist.removeIf(artist -> artist.getIdArtist().equals(id));
+        return listaArtist;
+    }
+
     public List<Track> getTracks(){
         return trackService.getTracks();
     }
-
 }

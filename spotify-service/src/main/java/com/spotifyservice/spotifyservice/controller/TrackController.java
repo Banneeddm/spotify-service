@@ -16,28 +16,40 @@ public class TrackController {
     @Autowired
     private TrackService trackService;
 
-    @GetMapping(path = "/")
+    //Track Initial.
+    @GetMapping(path = "")
     public String initial(){
         return "Esto es un track";
     }
 
+    //Filtrar por id.
     @GetMapping("/{id}")
-    public Track retriveTrack(@PathVariable Long id){
+    public List<Track> retriveTrack(@PathVariable Long id){
         return trackService.getTrack(id);
     }
 
-    @GetMapping("/rank")
+    //mostrar todos los tracks.
+    @GetMapping("/")
     public List<Track> retriveTracks(){
         return trackService.getTracks();
     }
 
+    //Crear new track.
     @PostMapping(path = "/")
-    public Track createTrack(@RequestBody TrackRequest trackRequest){
+    public List<Track> createTrack(@RequestBody TrackRequest trackRequest){
         return trackService.createTrack(trackRequest);
     }
 
+    //Editar Track.
+    @PutMapping("{id}")
+    public List<Track> editTrack(@PathVariable Long id, @RequestBody TrackRequest trackRequest){
+        return trackService.editTrack(id, trackRequest);
+    }
+
+    //Borrar track.
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id){
-        return ResponseEntity.ok(Boolean.TRUE);
+    public String deleteTrack(@PathVariable Long id){
+        trackService.deleteTrack(id);
+        return "Track eliminado con exito";
     }
 }
