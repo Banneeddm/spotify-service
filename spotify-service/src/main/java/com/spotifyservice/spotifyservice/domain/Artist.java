@@ -1,0 +1,20 @@
+package com.spotifyservice.spotifyservice.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
+public class Artist {
+
+    private Long idArtist;
+    private String name;
+    private String genre;
+    private String image;
+
+}
