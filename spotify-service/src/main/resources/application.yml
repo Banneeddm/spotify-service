@@ -6,14 +6,11 @@ spring:
         name: spotify-service
     datasourse:
         url: jdbc:h2:file:c:/data/demo
-        username: sa
-        password: password
+        username: joel
+        password: joel
         driverClassname: org.h2.Driver
     jpa:
         spring.jpa.database-plataform: org.hibernate.dialect.H2Dialect
-        hibernate:
-            dll-auto: update
+
     h2:
         console.enabled: true
-
-

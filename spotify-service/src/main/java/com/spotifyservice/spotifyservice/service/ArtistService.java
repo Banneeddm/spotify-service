@@ -3,7 +3,6 @@ package com.spotifyservice.spotifyservice.service;
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.domain.ArtistMapper;
-import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,23 +22,23 @@ public class ArtistService {
     private ArtistMapper artistMapper;
 
     @Autowired
+    private AlbumService albumService;
+
+    @Autowired
     private ArtistRepository artistRepository;
 
 
-    public void initArtist(){
-        if (listaArtist.isEmpty()) {
-            ArtistRequest artis1 = new ArtistRequest();
-            artis1.setName("Artista 1");
-            artis1.setGenre("Genre 1");
-            artis1.setImage("Image 1");
+    public Artist initArtist(){
+        Artist artist = new Artist();
+        artist.setNameArtist("Artist1");
+        artist.setImage("Image1");
+        artist.setGenre("Genre1");
 
-            createArtist(artis1);
-
-            listaArtist.stream().forEach(artist -> {
-                artistRepository.save(artist);
-            });
-        }
+        return artist;
     }
+
+
+    public Artist getPrimerArtist(){return  artistRepository.findByIdArtist(1L);}
 
     public Artist getArtist(Long id){
         return artistRepository.findByIdArtist(id);
@@ -72,10 +71,16 @@ public class ArtistService {
     }
 
     public Artist deleteArtist(Long id){
+        albumService.setArtistNull(id);
         artistRepository.deleteById(id);
         return null;
     }
 
+
+    public Artist guardarArtist(Artist artist){
+        artistRepository.save(artist);
+        return artist;
+    }
     /**
     public List<Artist> getArtist(Long id){
         return listaArtist.stream().filter(x -> Objects.equals(x.getIdArtist(), id)).collect(Collectors.toList());

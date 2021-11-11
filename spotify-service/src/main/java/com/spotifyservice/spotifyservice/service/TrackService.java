@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class TrackService {
@@ -19,6 +17,9 @@ public class TrackService {
 
     @Autowired
     private TrackMapper trackMapper;
+
+    @Autowired
+    private ArtistService artistService;
 
     @Autowired
     private TrackRepository trackRepository;

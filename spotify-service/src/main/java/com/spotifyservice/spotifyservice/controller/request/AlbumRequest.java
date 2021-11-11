@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class AlbumRequest {
 
     private Long idAlbum;
-    private Long idArtist;
+    private Artist idArtist;
     private String name;
 
 }
