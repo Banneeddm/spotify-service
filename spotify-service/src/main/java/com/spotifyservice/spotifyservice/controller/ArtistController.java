@@ -2,9 +2,11 @@ package com.spotifyservice.spotifyservice.controller;
 
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.domain.Artist;
+import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.service.ArtistService;
 import com.spotifyservice.spotifyservice.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,13 +29,13 @@ public class ArtistController {
 
     //Filtra Artista por id.
     @GetMapping("/{id}")
-    public Artist getArtist(@PathVariable("id") Long id){
+    public List<Artist> getArtist(@PathVariable("id") Long id){
         return artistService.getArtist(id);
     }
 
     //Muestra todos los artistas.
     @GetMapping("/")
-    public Iterable<Artist> artists(){
+    public List<Artist> artists(){
         return artistService.getArtists();
     }
 
@@ -46,13 +48,13 @@ public class ArtistController {
 
     //Crea un nuevo artista.
     @PostMapping(path = "/")
-    public Artist createArtist(@RequestBody ArtistRequest artistRequest) {
+    public List<Artist> createArtist(@RequestBody ArtistRequest artistRequest) {
         return artistService.createArtist(artistRequest);
     }
 
     //Modificar un artista existente.
     @PutMapping(path = "/{id}")
-    public Artist editArtist(@PathVariable Long id, @RequestBody ArtistRequest artistRequest){
+    public List<Artist> editArtist(@PathVariable Long id, @RequestBody ArtistRequest artistRequest){
         return artistService.editArtist(id, artistRequest);
     }
 
@@ -63,10 +65,9 @@ public class ArtistController {
         return "Artista eliminado con exito";
     }
 
-    /**
     //Filta por id, las canciones mas escuchadas --> Replantear.
     @GetMapping("/{id}/songs/rank")
     public List<Track> getTracks(){
         return artistService.getTracks();
-    }**/
+    }
 }

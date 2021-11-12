@@ -12,7 +12,7 @@ public class AlbumMapper implements Function<AlbumRequest, Album> {
     public Album apply(AlbumRequest albumRequest){
         return Album.builder().idAlbum(albumRequest.getIdAlbum())
                 .idArtist(albumRequest.getIdArtist())
-                .nameAlbum(albumRequest.getName())
+                .name(albumRequest.getName())
                 .build();
     }
 }

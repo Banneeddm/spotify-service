@@ -13,7 +13,7 @@ public class ArtistMapper implements Function<ArtistRequest, Artist> {
     {
         return Artist.builder()
                 .idArtist(artistRequest.getIdArtist())
-                .nameArtist(artistRequest.getName())
+                .name(artistRequest.getName())
                 .genre(artistRequest.getGenre())
                 .image(artistRequest.getImage()).build();
     }
