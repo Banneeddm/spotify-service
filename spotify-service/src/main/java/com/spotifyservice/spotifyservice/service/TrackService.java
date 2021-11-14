@@ -1,6 +1,7 @@
 package com.spotifyservice.spotifyservice.service;
 
 import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
+import com.spotifyservice.spotifyservice.domain.Album;
 import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.domain.TrackMapper;
 import com.spotifyservice.spotifyservice.repository.TrackRepository;
@@ -19,27 +20,14 @@ public class TrackService {
     private TrackMapper trackMapper;
 
     @Autowired
+    private AlbumService albumService;
+
+    @Autowired
     private ArtistService artistService;
 
     @Autowired
     private TrackRepository trackRepository;
 
-    public void initTrack(){
-        if (listaTrack.isEmpty()) {
-            TrackRequest track = new TrackRequest();
-            track.setIdAlbum(1L);
-            track.setIdArtist(1L);
-            track.setName("Track1");
-            track.setReproduction(123L);
-            track.setDuration(5.32);
-
-            createTrack(track);
-
-            listaTrack.stream().forEach(track1 -> {
-                trackRepository.save(track1);
-            });
-        }
-    }
 
     public Track getTrack(Long id){
         return trackRepository.findByIdTrack(id);
@@ -49,10 +37,28 @@ public class TrackService {
         return trackRepository.findAll();
     }
 
-    public Track createTrack(TrackRequest trackRequest){
+    public Track createPrimerTrack(TrackRequest trackRequest){
         Track track = trackMapper.apply(trackRequest);
         trackRepository.save(trackMapper.apply(trackRequest));
         return track;
+    }
+
+    public Track createTrack(TrackRequest trackRequest){
+        Track trackNew = null;
+        Track track = trackMapper.apply(trackRequest);
+        for(Album album: albumService.getAlbums()){
+            if(album.getIdAlbum().equals(trackRequest.getIdAlbum().getIdAlbum())){
+                trackNew = track;
+                trackNew.setIdAlbum(album);
+                trackRepository.save(trackNew);
+            }
+            else{
+                trackNew = track;
+                trackNew.setIdAlbum(null);
+                trackRepository.save(trackNew);
+            }
+        }
+        return trackNew;
     }
 
     public Track editTrack(Long id, TrackRequest trackRequest){
@@ -67,7 +73,11 @@ public class TrackService {
         if(trackRequest.getName() != null){trackActualizado.setNameTrack(trackRequest.getName());}
         if(trackRequest.getDuration() != null){trackActualizado.setDuration(trackRequest.getDuration());}
         if(trackRequest.getReproduction() != null){trackActualizado.setReproduction(trackRequest.getReproduction());}
-        if(trackRequest.getIdAlbum() != null){trackActualizado.setIdAlbum(trackRequest.getIdAlbum());}
+        for(Album album: albumService.getAlbums()){
+            if(album.getIdAlbum().equals(trackRequest.getIdAlbum().getIdAlbum())){
+                trackActualizado.setIdAlbum(album);
+            }
+        }
         if(trackRequest.getIdArtist() != null){trackActualizado.setIdArtist(trackRequest.getIdArtist());}
 
 
@@ -76,48 +86,28 @@ public class TrackService {
     }
 
     public Track deleteTrack(Long id){
-        trackRepository.deleteById(id);
+        Album album = null;
+        for(Album album1: albumService.getAlbums()){
+            if(album1.getIdAlbum().equals(trackRepository.findByIdTrack(id).getIdAlbum().getIdAlbum())){
+                album = album1;
+                trackRepository.deleteById(id);
+                albumService.guardarAlbum(album);
+            }
+            else {
+                trackRepository.deleteById(id);
+            }
+        }
+        if(trackRepository.findByIdTrack(id) != null){
+            trackRepository.deleteById(id);
+        }
         return null;
     }
 
-    /**
-    public List<Track> getTrack(Long id) {
-        return listaTrack.stream().filter(x -> Objects.equals(x.getId(),id)).collect(Collectors.toList());
-    }
-
-    public List<Track> getTracks() {
-        return listaTrack;
-    }
-
-    public List<Track> createTrack(TrackRequest trackRequest){
-        listaTrack.add(trackMapper.apply(trackRequest));
-        return listaTrack;
-    }
-
-    public List<Track> editTrack(Long id, TrackRequest trackRequest){
-        Track trackActualizado = null;
-        int aux = 0;
-        int pos = 0;
-
-        for(Track track: listaTrack){
-            if(track.getId().equals(id)){
-                trackActualizado = track;
-                aux = pos;
+    public void setAlbumNull(Long idAlbum){
+        for(Track track: trackRepository.findAll()){
+            if(track.getIdAlbum().getIdAlbum().equals(idAlbum)){
+                track.setIdAlbum(null);
             }
-            pos ++;
         }
-
-        trackActualizado.setNameTrack(trackRequest.getName());
-
-        listaTrack.remove(aux);
-        listaTrack.add(aux,trackActualizado);
-
-        return listaTrack;
     }
-
-    public List<Track> deleteTrack(Long id){
-        listaTrack.removeIf(track -> track.getId().equals(id));
-        return listaTrack;
-    }
-     **/
 }

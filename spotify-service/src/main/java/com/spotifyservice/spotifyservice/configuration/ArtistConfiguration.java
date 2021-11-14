@@ -15,11 +15,4 @@ public class ArtistConfiguration {
 
     @Autowired
     private ArtistService artistService;
-
-    /**
-    @Bean("primero")
-    @PostConstruct
-    public Artist initArtist(){
-        return artistService.initArtist();
-    }**/
 }

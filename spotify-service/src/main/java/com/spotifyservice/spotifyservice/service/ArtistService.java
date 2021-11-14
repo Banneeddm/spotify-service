@@ -81,47 +81,4 @@ public class ArtistService {
         artistRepository.save(artist);
         return artist;
     }
-    /**
-    public List<Artist> getArtist(Long id){
-        return listaArtist.stream().filter(x -> Objects.equals(x.getIdArtist(), id)).collect(Collectors.toList());
-    }
-    public List<Artist> getArtists(){
-        return listaArtist;
-    }
-    public List<Artist> createArtist(ArtistRequest artistRequest){
-        listaArtist.add(artistMapper.apply(artistRequest));
-        return listaArtist;
-    }
-
-    public List<Artist> editArtist(Long id, ArtistRequest artistRequest){
-        Artist artistActualizado = null;
-        int aux = 0;
-        int pos = 0;
-
-        for(Artist artist: listaArtist){
-            if(artist.getIdArtist().equals(id)){
-                artistActualizado = artist;
-                aux = pos;
-            }
-            pos ++;
-        }
-
-        artistActualizado.setGenre(artistRequest.getGenre());
-        artistActualizado.setName(artistRequest.getName());
-        artistActualizado.setImage(artistRequest.getImage());
-
-        listaArtist.remove(aux);
-        listaArtist.add(aux, artistActualizado);
-
-        return listaArtist;
-    }
-
-    public List<Artist> deleteArtist(Long id){
-        listaArtist.removeIf(artist -> artist.getIdArtist().equals(id));
-        return listaArtist;
-    }
-
-    public List<Track> getTracks(){
-        return trackService.getTracks();
-    }**/
 }
