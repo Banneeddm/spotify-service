@@ -110,4 +110,21 @@ public class TrackService {
             }
         }
     }
+
+    public void guardarTrack(Track track){
+        trackRepository.save(track);
+    }
+
+
+    public Track playTrack(Long id){
+        Track playTrack = null;
+        for(Track track: trackRepository.findAll()){
+            if(track.getIdTrack().equals(id)){
+                playTrack = track;
+            }
+        }
+        playTrack.setReproduction(playTrack.getReproduction() + 1);
+        trackRepository.save(playTrack);
+        return playTrack;
+    }
 }

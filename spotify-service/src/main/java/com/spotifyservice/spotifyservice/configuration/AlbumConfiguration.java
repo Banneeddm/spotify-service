@@ -1,5 +1,4 @@
 package com.spotifyservice.spotifyservice.configuration;
-import com.spotifyservice.spotifyservice.domain.Album;
 import com.spotifyservice.spotifyservice.service.AlbumService;
 import com.spotifyservice.spotifyservice.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;

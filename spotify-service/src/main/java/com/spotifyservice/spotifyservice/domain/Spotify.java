@@ -6,11 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import javax.persistence.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
+@Entity(name = "SPOTIFY")
 public class Spotify {
 
-    private Album album;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_TRACK")
+    private Long idTrack;
 }

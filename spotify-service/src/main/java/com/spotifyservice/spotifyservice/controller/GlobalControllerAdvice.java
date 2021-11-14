@@ -15,6 +15,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handlerValidationException(MethodArgumentNotValidException ex){

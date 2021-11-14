@@ -37,12 +37,6 @@ public class ArtistController {
         return artistService.getArtists();
     }
 
-    /**
-    //Muestra un rank de artistias --> Hacer de new.
-    @GetMapping("/rank")
-    public List<Artist> retriveArtists(){
-        return artistService.getArtists();
-    } **/
 
     //Crea un nuevo artista.
     @PostMapping(path = "/")
@@ -62,11 +56,4 @@ public class ArtistController {
         artistService.deleteArtist(id);
         return "Artista eliminado con exito";
     }
-
-    /**
-    //Filta por id, las canciones mas escuchadas --> Replantear.
-    @GetMapping("/{id}/songs/rank")
-    public List<Track> getTracks(){
-        return artistService.getTracks();
-    }**/
 }

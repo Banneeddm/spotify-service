@@ -1,11 +1,7 @@
 package com.spotifyservice.spotifyservice.controller.request;
 
 import com.spotifyservice.spotifyservice.domain.Album;
-import com.spotifyservice.spotifyservice.domain.Artist;
 import lombok.*;
-
-import javax.persistence.OneToOne;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
