@@ -1,0 +1,16 @@
+server:
+    port: 8080
+---
+spring:
+    application:
+        name: spotify-service
+    datasourse:
+        url: jdbc:h2:file:c:/data/demo
+        username: joel
+        password: joel
+        driverClassname: org.h2.Driver
+    jpa:
+        spring.jpa.database-plataform: org.hibernate.dialect.H2Dialect
+
+    h2:
+        console.enabled: true

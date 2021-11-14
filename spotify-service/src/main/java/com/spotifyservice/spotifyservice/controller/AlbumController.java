@@ -4,11 +4,8 @@ import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.domain.Album;
 import com.spotifyservice.spotifyservice.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.lang.Long;
 
 @RestController
@@ -26,25 +23,25 @@ public class AlbumController {
 
     //Filtrar por id.
     @GetMapping("/{id}")
-    public List<Album> retriveAlbum(@PathVariable("id") Long id){
+    public Album retriveAlbum(@PathVariable("id") Long id){
         return albumService.getAlbum(id);
     }
 
     //Muestra todos los Albumes.
     @GetMapping("/")
-    public List<Album> retriveAlbums(){
+    public Iterable<Album> retriveAlbums(){
         return albumService.getAlbums();
     }
 
     //Crea un nuevo album.
     @PostMapping(path = "/")
-    public List<Album> createAlbum(@RequestBody AlbumRequest album) {
+    public Album createAlbum(@RequestBody AlbumRequest album) {
         return albumService.createAlbum(album);
     }
 
     //Modifica un Album existente.
     @PutMapping(path = "/{id}")
-    public List<Album> editAlbum(@PathVariable Long id, @RequestBody AlbumRequest albumRequest){
+    public Album editAlbum(@PathVariable Long id, @RequestBody AlbumRequest albumRequest){
         return albumService.editAlbum(id, albumRequest);
     }
 

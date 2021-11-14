@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 public class ArtistConfiguration {
 
@@ -18,9 +16,10 @@ public class ArtistConfiguration {
     @Autowired
     private ArtistService artistService;
 
+    /**
+    @Bean("primero")
     @PostConstruct
-    public void initArtist(){
-        artistService.initArtist();
-    }
-
+    public Artist initArtist(){
+        return artistService.initArtist();
+    }**/
 }

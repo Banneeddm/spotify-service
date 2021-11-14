@@ -4,15 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 @Data
+@Table(name = "ALBUM")
 public class Album {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_ALBUM")
     private Long idAlbum;
-    private Long idArtist;
-    private String name;
+
+    @OneToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "ID_ARTIST")
+    private Artist idArtist;
+
+    @Column(name = "NAME_ALBUM")
+    private String nameAlbum;
 }

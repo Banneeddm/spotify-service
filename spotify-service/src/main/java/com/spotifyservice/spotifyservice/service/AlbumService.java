@@ -4,16 +4,12 @@ import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.domain.Album;
 import com.spotifyservice.spotifyservice.domain.AlbumMapper;
 import com.spotifyservice.spotifyservice.domain.Artist;
+import com.spotifyservice.spotifyservice.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -22,34 +18,102 @@ public class AlbumService {
 
     List<Album> listaAlbums = new ArrayList<Album>();
 
+    @Autowired
     private ArtistService artistService;
 
     @Autowired
     private AlbumMapper albumMapper;
 
-    public void initAlbum(){
+    @Autowired
+    private AlbumRepository albumRepository;
+
+    public void initAlbum(Artist artist){
         if (listaAlbums.isEmpty()) {
             AlbumRequest album1 = new AlbumRequest();
-            album1.setIdAlbum(1L);
-            album1.setIdArtist(1L);
+            album1.setIdArtist(artist);
             album1.setName("Album1");
+            createPrimerAlbum(album1);
 
-            createAlbum(album1);
+            listaAlbums.stream().forEach(album -> {
+                albumRepository.save(album);
+            });
         }
     }
 
-    public List<Album> getAlbum(Long id){
-        return listaAlbums.stream().filter(x -> Objects.equals(x.getIdAlbum(), id)).collect(Collectors.toList());
+    public Album getPrimerAlbum(){return albumRepository.findByIdAlbum(1L);}
+
+    public Album getAlbum(Long id){
+        return albumRepository.findByIdAlbum(id);
     }
 
-    public List<Album> getAlbums(){
-        return listaAlbums;
+    public Iterable<Album> getAlbums(){
+        return albumRepository.findAll();
     }
 
-    public List<Album> createAlbum(AlbumRequest request){
-        listaAlbums.add(albumMapper.apply(request));
-        return listaAlbums;
+    public Album createPrimerAlbum(AlbumRequest request){
+        Album album = albumMapper.apply(request);
+        albumRepository.save(albumMapper.apply(request));
+        return album;
     }
+
+    public Album createAlbum(AlbumRequest albumRequest){
+        Album albumNew = null;
+        Album album = albumMapper.apply(albumRequest);
+        for(Artist artist: artistService.getArtists()){
+            if(artist.getIdArtist().equals(albumRequest.getIdArtist().getIdArtist())){
+                albumNew = album;
+                albumNew.setIdArtist(artist);
+                albumRepository.save(albumNew);
+            }
+        }
+        return albumNew;
+    }
+
+    public Album editAlbum(Long id, AlbumRequest albumRequest){
+        Album albumActualizado = null;
+
+        for(Album album: albumRepository.findAll()){
+            if(album.getIdAlbum().equals(id)){
+                albumActualizado = album;
+            }
+        }
+
+        if(albumRequest.getName() != null){albumActualizado.setNameAlbum(albumRequest.getName());}
+        for(Artist artist: artistService.getArtists()){
+            if(artist.getIdArtist().equals(albumRequest.getIdArtist().getIdArtist())){
+                albumActualizado.setIdArtist(artist);
+            }
+        }
+
+        albumRepository.save(albumActualizado);
+
+        return albumActualizado;
+    }
+
+    public Album deleteAlbum(Long id){
+        Artist art = null;
+        for(Artist artist: artistService.getArtists()){
+            if(artist.getIdArtist().equals(albumRepository.findByIdAlbum(id).getIdArtist().getIdArtist())){
+                art = artist;
+                albumRepository.deleteById(id);
+                artistService.guardarArtist(art);
+            }
+        }
+        return null;
+    }
+
+    public void setArtistNull(Long idArtist){
+        for(Album album:albumRepository.findAll()){
+            if(album.getIdArtist().getIdArtist().equals(idArtist)){
+                album.setIdArtist(null);
+            }
+        }
+    }
+
+    /**
+     public List<Album> getAlbum(Long id){
+     return listaAlbums.stream().filter(x -> Objects.equals(x.getIdAlbum(), id)).collect(Collectors.toList());
+     }
 
     public List<Album> editAlbum(Long id, AlbumRequest albumRequest){
         Album albumActualizado = null;
@@ -77,5 +141,6 @@ public class AlbumService {
         listaAlbums.removeIf(album -> album.getIdAlbum().equals(id));
         return listaAlbums;
     }
+     **/
 
 }

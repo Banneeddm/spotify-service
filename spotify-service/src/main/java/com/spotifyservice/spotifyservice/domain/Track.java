@@ -1,18 +1,20 @@
 package com.spotifyservice.spotifyservice.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 @Data
 public class Track {
 
-    private Long id;
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idTrack;
+    private String nameTrack;
     private Long idArtist;
     private Long idAlbum;
     private Long reproduction;
