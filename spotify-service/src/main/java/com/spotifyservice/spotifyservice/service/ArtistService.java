@@ -3,6 +3,7 @@ package com.spotifyservice.spotifyservice.service;
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.domain.ArtistMapper;
+import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,8 @@ public class ArtistService {
     }
 
     public Artist deleteArtist(Long id){
-        albumService.setArtistNull(id);
+        trackService.actualizarEstadoArtist(id);
+        albumService.actualizarAlbum(id);
         artistRepository.deleteById(id);
         return null;
     }
@@ -80,5 +82,15 @@ public class ArtistService {
     public Artist guardarArtist(Artist artist){
         artistRepository.save(artist);
         return artist;
+    }
+
+    public List<Track> top5ArtistTrack(Long id){
+        ArrayList rank = new ArrayList<>();
+        for(Track track: trackService.rank()){
+            if(track.getIdArtist().getIdArtist().equals(id)){
+                rank.add(track);
+            }
+        }
+        return rank;
     }
 }

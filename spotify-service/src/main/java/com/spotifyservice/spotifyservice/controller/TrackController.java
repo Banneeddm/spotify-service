@@ -6,6 +6,8 @@ import com.spotifyservice.spotifyservice.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/track")
@@ -49,5 +51,10 @@ public class TrackController {
     public String deleteTrack(@PathVariable Long id){
         trackService.deleteTrack(id);
         return "Track eliminado con exito";
+    }
+
+    @GetMapping("/rank")
+    public List<Track> rank(){
+        return trackService.rank();
     }
 }

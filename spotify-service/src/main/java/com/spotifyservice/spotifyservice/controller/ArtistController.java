@@ -2,6 +2,7 @@ package com.spotifyservice.spotifyservice.controller;
 
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.domain.Artist;
+import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.service.ArtistService;
 import com.spotifyservice.spotifyservice.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,10 @@ public class ArtistController {
     public String deleteArtist(@PathVariable Long id){
         artistService.deleteArtist(id);
         return "Artista eliminado con exito";
+    }
+
+    @GetMapping("/{id}/songs/rank")
+    public List<Track> top5ArtistTrack(@PathVariable Long id){
+        return artistService.top5ArtistTrack(id);
     }
 }

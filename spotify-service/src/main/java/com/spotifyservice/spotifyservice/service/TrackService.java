@@ -2,14 +2,14 @@ package com.spotifyservice.spotifyservice.service;
 
 import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
 import com.spotifyservice.spotifyservice.domain.Album;
+import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.domain.TrackMapper;
 import com.spotifyservice.spotifyservice.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TrackService {
@@ -46,18 +46,26 @@ public class TrackService {
     public Track createTrack(TrackRequest trackRequest){
         Track trackNew = null;
         Track track = trackMapper.apply(trackRequest);
-        for(Album album: albumService.getAlbums()){
-            if(album.getIdAlbum().equals(trackRequest.getIdAlbum().getIdAlbum())){
-                trackNew = track;
-                trackNew.setIdAlbum(album);
-                trackRepository.save(trackNew);
+        trackNew = track;
+        if(trackRequest.getIdArtist() != null){
+            for(Artist artist: artistService.getArtists()) {
+                if (artist.getIdArtist().equals(trackRequest.getIdArtist().getIdArtist())) {
+                    trackNew.setIdArtist(artist);
+                }
             }
-            else{
-                trackNew = track;
-                trackNew.setIdAlbum(null);
-                trackRepository.save(trackNew);
-            }
+        } else{
+            trackNew.setIdArtist(null);
         }
+        if(trackRequest.getIdAlbum() != null){
+            for(Album album: albumService.getAlbums()) {
+                if (album.getIdAlbum().equals(trackRequest.getIdAlbum().getIdAlbum())) {
+                    trackNew.setIdAlbum(album);
+                }
+            }
+        }else{
+            trackNew.setIdAlbum(null);
+        }
+        trackRepository.save(trackNew);
         return trackNew;
     }
 
@@ -73,40 +81,55 @@ public class TrackService {
         if(trackRequest.getName() != null){trackActualizado.setNameTrack(trackRequest.getName());}
         if(trackRequest.getDuration() != null){trackActualizado.setDuration(trackRequest.getDuration());}
         if(trackRequest.getReproduction() != null){trackActualizado.setReproduction(trackRequest.getReproduction());}
-        for(Album album: albumService.getAlbums()){
-            if(album.getIdAlbum().equals(trackRequest.getIdAlbum().getIdAlbum())){
-                trackActualizado.setIdAlbum(album);
+        if(trackRequest.getIdArtist() != null) {
+            for(Artist artist: artistService.getArtists()){
+                if(artist.getIdArtist().equals(trackRequest.getIdArtist().getIdArtist())){
+                    trackActualizado.setIdArtist(artist);
+                }
             }
         }
-        if(trackRequest.getIdArtist() != null){trackActualizado.setIdArtist(trackRequest.getIdArtist());}
-
-
+        if(trackRequest.getIdAlbum() != null){
+            for(Album album: albumService.getAlbums()){
+                if(album.getIdAlbum().equals(trackRequest.getIdAlbum().getIdAlbum())){
+                    trackActualizado.setIdAlbum(album);
+                }
+            }
+        }
         trackRepository.save(trackActualizado);
         return trackActualizado;
     }
 
     public Track deleteTrack(Long id){
         Album album = null;
-        for(Album album1: albumService.getAlbums()){
-            if(album1.getIdAlbum().equals(trackRepository.findByIdTrack(id).getIdAlbum().getIdAlbum())){
-                album = album1;
-                trackRepository.deleteById(id);
-                albumService.guardarAlbum(album);
+        Artist artist = null;
+
+        for(Track track: trackRepository.findAll()){
+            if(track.getIdArtist().getIdArtist().equals(trackRepository.findByIdTrack(id).getIdArtist().getIdArtist())
+            || track.getIdAlbum().getIdAlbum().equals(trackRepository.findByIdTrack(id).getIdAlbum().getIdAlbum())) {
+                album = trackRepository.findByIdTrack(id).getIdAlbum();
+                artist = trackRepository.findByIdTrack(id).getIdArtist();
             }
-            else {
-                trackRepository.deleteById(id);
-            }
-        }
-        if(trackRepository.findByIdTrack(id) != null){
             trackRepository.deleteById(id);
+            if(album.getIdArtist().getIdArtist() != artist.getIdArtist()){
+                artistService.guardarArtist(artist);
+            }
+            albumService.guardarAlbum(album);
         }
         return null;
     }
 
-    public void setAlbumNull(Long idAlbum){
+    public void actualizarEstadoAlbum(Long idAlbum){
         for(Track track: trackRepository.findAll()){
-            if(track.getIdAlbum().getIdAlbum().equals(idAlbum)){
+            if(track.getIdAlbum().getIdAlbum().equals(idAlbum) && track.getIdAlbum() != null){
                 track.setIdAlbum(null);
+            }
+        }
+    }
+
+    public void actualizarEstadoArtist(Long idArtist){
+        for(Track track: trackRepository.findAll()){
+            if(track.getIdArtist().getIdArtist().equals(idArtist) && track.getIdTrack() != null){
+                track.setIdArtist(null);
             }
         }
     }
@@ -126,5 +149,22 @@ public class TrackService {
         playTrack.setReproduction(playTrack.getReproduction() + 1);
         trackRepository.save(playTrack);
         return playTrack;
+    }
+
+    public List<Track> rank() {
+        ArrayList rank = new ArrayList<>();
+        List<Track> top5 = new ArrayList<Track>();
+        for(Track track: trackRepository.findAll()){
+            rank.add(track);
+        }
+        Collections.sort(rank, new Comparator<Track>() {
+            public int compare(Track t1, Track t2){
+                return (t2.getReproduction().compareTo(t1.getReproduction()));
+            }
+        });
+        for(int i = 0; i < 5; i++){
+            top5.add((Track) rank.get(i));
+        }
+        return top5;
     }
 }

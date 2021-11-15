@@ -98,7 +98,7 @@ public class AlbumService {
 
     public Album deleteAlbum(Long id){
         Artist art = null;
-        trackService.setAlbumNull(id);
+        trackService.actualizarEstadoAlbum(id);
         for(Artist artist: artistService.getArtists()){
             if(artist.getIdArtist().equals(albumRepository.findByIdAlbum(id).getIdArtist().getIdArtist())){
                 art = artist;
@@ -112,9 +112,9 @@ public class AlbumService {
         return null;
     }
 
-    public void setArtistNull(Long idArtist){
+    public void actualizarAlbum(Long idArtist){
         for(Album album:albumRepository.findAll()){
-            if(album.getIdArtist().getIdArtist().equals(idArtist)){
+            if(album.getIdArtist().getIdArtist().equals(idArtist) && album.getIdArtist() != null){
                 album.setIdArtist(null);
             }
         }

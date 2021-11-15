@@ -12,19 +12,19 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Data
-@Table(name = "ALBUM")
+@Table(name = "album")
 public class Album {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ALBUM")
+    @Column(name = "album_id")
     private Long idAlbum;
 
     @OneToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "ID_ARTIST")
+    @JoinColumn(name = "artist_id")
     private Artist idArtist;
 
-    @Column(name = "NAME_ALBUM")
+    @Column(name = "album_name")
     private String nameAlbum;
 }

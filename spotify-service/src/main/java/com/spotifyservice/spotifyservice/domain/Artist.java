@@ -12,19 +12,19 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Data
-@Table(name = "ARTIST")
+@Table(name = "artist")
 public class Artist {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ARTIST")
+    @Column(name = "artist_id")
     private Long idArtist;
-    @Column(name = "NAME_ARTIST")
+    @Column(name = "artist_name")
     private String nameArtist;
-    @Column(name = "GENRE")
+    @Column(name = "artist_genre")
     private String genre;
-    @Column(name = "IMAGE")
+    @Column(name = "artist_image")
     private String image;
 
 }

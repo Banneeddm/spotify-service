@@ -9,27 +9,28 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Data
-@Table(name = "TRACK")
+@Table(name = "track")
 public class Track {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_TRACK")
+    @Column(name = "track_id")
     private Long idTrack;
 
-    @Column(name = "NAME_TRACK")
+    @Column(name = "track_name")
     private String nameTrack;
 
-    @Column(name = "ID_ARTIST")
-    private Long idArtist;
+    @OneToOne(cascade = { CascadeType.ALL})
+    @JoinColumn(name = "artist_id")
+    private Artist idArtist;
 
     @OneToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "ID_ALBUM")
+    @JoinColumn(name = "album_id")
     private Album idAlbum;
 
-    @Column(name = "REPRODUCTION")
+    @Column(name = "track_reproduction")
     private Long reproduction;
 
-    @Column(name = "DURATION")
+    @Column(name = "track_duration")
     private Double duration;
 }
