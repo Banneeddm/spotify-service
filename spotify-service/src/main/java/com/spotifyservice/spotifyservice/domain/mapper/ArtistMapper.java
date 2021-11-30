@@ -10,8 +10,7 @@ import java.util.function.Function;
 public class ArtistMapper implements Function<ArtistRequest, Artist> {
 
     @Override
-    public Artist apply(ArtistRequest artistRequest)
-    {
+    public Artist apply(ArtistRequest artistRequest) {
         return Artist.builder()
                 .idArtist(artistRequest.getIdArtist())
                 .nameArtist(artistRequest.getName())

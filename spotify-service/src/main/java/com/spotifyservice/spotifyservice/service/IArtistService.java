@@ -2,20 +2,18 @@ package com.spotifyservice.spotifyservice.service;
 
 
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
+import com.spotifyservice.spotifyservice.controller.response.ArtistResponse;
 import com.spotifyservice.spotifyservice.domain.Artist;
 
 public interface IArtistService {
 
-    public Artist getArtist(Long id);
+    public ArtistResponse getArtist(Long id);
 
     public Iterable<Artist> getArtists();
 
-    public Artist createArtist(ArtistRequest artistRequest);
+    public ArtistResponse createArtist(ArtistRequest artistRequest);
 
-    public Artist editArtist(Long id, ArtistRequest artistRequest);
+    public ArtistResponse editArtist(Long id, ArtistRequest artistRequest);
 
-    public Artist deleteArtist(Long id);
-
-    public Boolean guardarArtist(Artist artist);
-
+    public Boolean deleteArtist(Long id);
 }

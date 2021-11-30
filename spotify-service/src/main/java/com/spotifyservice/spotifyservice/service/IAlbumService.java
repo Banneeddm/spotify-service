@@ -15,6 +15,4 @@ public interface IAlbumService {
     public AlbumResponse editAlbum(Long id, AlbumRequest albumRequest);
 
     public Boolean deleteAlbum(Long id);
-
-    public void setArtistNull(Long idArtist);
 }

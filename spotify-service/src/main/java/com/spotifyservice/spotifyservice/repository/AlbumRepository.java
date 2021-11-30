@@ -16,6 +16,6 @@ public interface AlbumRepository extends CrudRepository<Album, Long> {
 
     Album findByIdAlbum(Long idAlbum);
 
-    @Query(value = "SELECT * FROM ALBUM WHERE ID_ARTIST = ID_ARTIST",nativeQuery = true)
-    List<Album> masDeDosAlbumsUnArtist(Long ID_ARTIST);
+    @Query(value = "SELECT * FROM ALBUM WHERE ID_ARTIST = :id",nativeQuery = true)
+    List<Album> masDeDosAlbumsUnArtist(Long id);
 }

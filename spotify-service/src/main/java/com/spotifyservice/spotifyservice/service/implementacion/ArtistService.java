@@ -1,8 +1,11 @@
 package com.spotifyservice.spotifyservice.service.implementacion;
 
+import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException;
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
+import com.spotifyservice.spotifyservice.controller.response.ArtistResponse;
 import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.domain.mapper.ArtistMapper;
+import com.spotifyservice.spotifyservice.domain.mapper.ArtistResponseMapper;
 import com.spotifyservice.spotifyservice.repository.ArtistRepository;
 import com.spotifyservice.spotifyservice.service.IArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,51 +26,54 @@ public class ArtistService implements IArtistService {
     private ArtistMapper artistMapper;
 
     @Autowired
+    private ArtistResponseMapper artistResponseMapper;
+
+    @Autowired
     private AlbumService albumService;
 
     @Autowired
     private ArtistRepository artistRepository;
 
 
-    public Artist getArtist(Long id){
-        return artistRepository.findByIdArtist(id);
+    public ArtistResponse getArtist(Long id){
+        Artist artist = artistRepository.findByIdArtist(id);
+        if(artist == null){
+            throw new CustomException("Invalid ID");
+        }
+        return artistResponseMapper.apply(artist);
     }
 
     public Iterable<Artist> getArtists(){
         return artistRepository.findAll();
     }
 
-    public Artist createArtist(ArtistRequest artistRequest){
+    public ArtistResponse createArtist(ArtistRequest artistRequest){
+        if(artistRequest.getName() == null || artistRequest.getGenre() == null || artistRequest.getImage() == null){
+            throw new CustomException("Llene los campos correctamente");
+        }
         Artist artist = artistMapper.apply(artistRequest);
         artistRepository.save(artistMapper.apply(artistRequest));
-        return artist;
+        return artistResponseMapper.apply(artist);
     }
 
-    public Artist editArtist(Long id, ArtistRequest artistRequest){
-        Artist artistActualizado = null;
-        for(Artist artist: artistRepository.findAll()){
-            if(artist.getIdArtist().equals(id)){
-                artistActualizado = artist;
-            }
+    public ArtistResponse editArtist(Long id, ArtistRequest artistRequest){
+        Artist artist = artistRepository.findByIdArtist(id);
+        if(artist == null){
+            throw new CustomException("Invalid ID");
         }
-
-        if(artistRequest.getName() != null){artistActualizado.setNameArtist(artistRequest.getName());}
-        if(artistRequest.getGenre() != null){artistActualizado.setGenre(artistRequest.getGenre());}
-        if(artistRequest.getImage() != null){artistActualizado.setImage(artistRequest.getImage());}
-
-        artistRepository.save(artistActualizado);
-        return artistActualizado;
+        if(artistRequest.getName() != null){artist.setNameArtist(artistRequest.getName());}
+        if(artistRequest.getGenre() != null){artist.setGenre(artistRequest.getGenre());}
+        if(artistRequest.getImage() != null){artist.setImage(artistRequest.getImage());}
+        artistRepository.save(artist);
+        return artistResponseMapper.apply(artist);
     }
 
-    public Artist deleteArtist(Long id){
+    public Boolean deleteArtist(Long id){
+        if(artistRepository.findByIdArtist(id) == null){
+            throw new CustomException("Invalid ID");
+        }
         albumService.setArtistNull(id);
         artistRepository.deleteById(id);
-        return null;
-    }
-
-
-    public Boolean guardarArtist(Artist artist){
-        artistRepository.save(artist);
         return true;
     }
 }

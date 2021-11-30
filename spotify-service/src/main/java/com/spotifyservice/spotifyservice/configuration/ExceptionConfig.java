@@ -19,4 +19,9 @@ public class ExceptionConfig {
     public ResponseEntity<?> customExeption(Exception e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> numberFormatException(Exception e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
 }

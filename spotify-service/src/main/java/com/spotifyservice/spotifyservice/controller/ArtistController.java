@@ -1,6 +1,7 @@
 package com.spotifyservice.spotifyservice.controller;
 
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
+import com.spotifyservice.spotifyservice.controller.response.ArtistResponse;
 import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.service.IArtistService;
 import com.spotifyservice.spotifyservice.service.ITrackService;
@@ -28,7 +29,7 @@ public class ArtistController {
 
     //Filtra Artista por id.
     @GetMapping("/{id}")
-    public Artist getArtist(@PathVariable("id") Long id){
+    public ArtistResponse getArtist(@PathVariable("id") Long id){
         return artistService.getArtist(id);
     }
 
@@ -41,20 +42,20 @@ public class ArtistController {
 
     //Crea un nuevo artista.
     @PostMapping(path = "/")
-    public Artist createArtist(@RequestBody ArtistRequest artistRequest) {
+    public ArtistResponse createArtist(@RequestBody ArtistRequest artistRequest) {
         return artistService.createArtist(artistRequest);
     }
 
     //Modificar un artista existente.
     @PutMapping(path = "/{id}")
-    public Artist editArtist(@PathVariable Long id, @RequestBody ArtistRequest artistRequest){
+    public ArtistResponse editArtist(@PathVariable Long id, @RequestBody ArtistRequest artistRequest){
         return artistService.editArtist(id, artistRequest);
     }
 
     //Eliminar un Artista por id-
     @DeleteMapping("/{id}")
-    public String deleteArtist(@PathVariable Long id){
+    public Boolean deleteArtist(@PathVariable Long id){
         artistService.deleteArtist(id);
-        return "Artista eliminado con exito";
+        return true;
     }
 }

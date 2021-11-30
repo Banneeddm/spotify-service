@@ -1,6 +1,7 @@
 package com.spotifyservice.spotifyservice.service.implementacion;
 
 import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException;
+import com.spotifyservice.spotifyservice.configuration.exeptions.NotFoundException;
 import com.spotifyservice.spotifyservice.configuration.exeptions.NullPointerException;
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.controller.response.AlbumResponse;
@@ -46,8 +47,7 @@ public class AlbumService implements IAlbumService {
         if(album == null){
             throw new CustomException("No hay ningun album registrado con ese ID...");
         }
-        AlbumResponse albumResponse = albumResponseMapper.apply(album);
-        return albumResponse;
+        return albumResponseMapper.apply(album);
     }
 
     public Iterable<Album> getAlbums(){
@@ -55,6 +55,9 @@ public class AlbumService implements IAlbumService {
     }
 
     public AlbumResponse createAlbum(AlbumRequest albumRequest){
+        if(albumRequest.getName() == null){
+            throw new CustomException("Llene los campos correctamente");
+        }
         Album album = albumMapper.apply(albumRequest);
         Artist artist = artistRepository.findByIdArtist(album.getIdArtist().getIdArtist());
         if(artist == null){
@@ -91,6 +94,10 @@ public class AlbumService implements IAlbumService {
         if(album == null){
             throw new CustomException("Album no encontrado");
         }
+        if(album.getIdArtist() == null){
+            albumRepository.delete(album);
+            return true;
+        }
         List<Album> albumList = albumRepository.masDeDosAlbumsUnArtist(album.getIdArtist().getIdArtist());
         for(Album album1: albumList){
             if(album1.getIdAlbum().equals(id)){
@@ -103,10 +110,9 @@ public class AlbumService implements IAlbumService {
     }
 
     public void setArtistNull(Long idArtist){
-        for(Album album:albumRepository.findAll()){
-            if(album.getIdArtist().getIdArtist().equals(idArtist)){
-                album.setIdArtist(null);
-            }
+        List<Album> albumList = albumRepository.masDeDosAlbumsUnArtist(idArtist);
+        for(Album album: albumList){
+            album.setIdArtist(null);
         }
     }
 }
