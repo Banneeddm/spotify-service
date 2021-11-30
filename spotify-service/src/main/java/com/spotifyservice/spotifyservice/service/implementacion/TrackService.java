@@ -1,9 +1,11 @@
-package com.spotifyservice.spotifyservice.service;
+package com.spotifyservice.spotifyservice.service.implementacion;
 
 import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
 import com.spotifyservice.spotifyservice.domain.Track;
-import com.spotifyservice.spotifyservice.domain.TrackMapper;
+import com.spotifyservice.spotifyservice.domain.mapper.TrackMapper;
 import com.spotifyservice.spotifyservice.repository.TrackRepository;
+import com.spotifyservice.spotifyservice.service.IArtistService;
+import com.spotifyservice.spotifyservice.service.ITrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TrackService {
+public class TrackService implements ITrackService {
 
     List<Track> listaTrack = new ArrayList<>();
 
@@ -19,27 +21,11 @@ public class TrackService {
     private TrackMapper trackMapper;
 
     @Autowired
-    private ArtistService artistService;
+    private IArtistService artistService;
 
     @Autowired
     private TrackRepository trackRepository;
 
-    public void initTrack(){
-        if (listaTrack.isEmpty()) {
-            TrackRequest track = new TrackRequest();
-            track.setIdAlbum(1L);
-            track.setIdArtist(1L);
-            track.setName("Track1");
-            track.setReproduction(123L);
-            track.setDuration(5.32);
-
-            createTrack(track);
-
-            listaTrack.stream().forEach(track1 -> {
-                trackRepository.save(track1);
-            });
-        }
-    }
 
     public Track getTrack(Long id){
         return trackRepository.findByIdTrack(id);
@@ -79,45 +65,4 @@ public class TrackService {
         trackRepository.deleteById(id);
         return null;
     }
-
-    /**
-    public List<Track> getTrack(Long id) {
-        return listaTrack.stream().filter(x -> Objects.equals(x.getId(),id)).collect(Collectors.toList());
-    }
-
-    public List<Track> getTracks() {
-        return listaTrack;
-    }
-
-    public List<Track> createTrack(TrackRequest trackRequest){
-        listaTrack.add(trackMapper.apply(trackRequest));
-        return listaTrack;
-    }
-
-    public List<Track> editTrack(Long id, TrackRequest trackRequest){
-        Track trackActualizado = null;
-        int aux = 0;
-        int pos = 0;
-
-        for(Track track: listaTrack){
-            if(track.getId().equals(id)){
-                trackActualizado = track;
-                aux = pos;
-            }
-            pos ++;
-        }
-
-        trackActualizado.setNameTrack(trackRequest.getName());
-
-        listaTrack.remove(aux);
-        listaTrack.add(aux,trackActualizado);
-
-        return listaTrack;
-    }
-
-    public List<Track> deleteTrack(Long id){
-        listaTrack.removeIf(track -> track.getId().equals(id));
-        return listaTrack;
-    }
-     **/
 }

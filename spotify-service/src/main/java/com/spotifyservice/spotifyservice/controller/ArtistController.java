@@ -2,23 +2,23 @@ package com.spotifyservice.spotifyservice.controller;
 
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.domain.Artist;
-import com.spotifyservice.spotifyservice.service.ArtistService;
-import com.spotifyservice.spotifyservice.service.TrackService;
+import com.spotifyservice.spotifyservice.service.IArtistService;
+import com.spotifyservice.spotifyservice.service.ITrackService;
+import com.spotifyservice.spotifyservice.service.implementacion.ArtistService;
+import com.spotifyservice.spotifyservice.service.implementacion.TrackService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/artist")
 public class ArtistController {
 
     @Autowired
-    private ArtistService artistService;
+    private IArtistService artistService;
 
     @Autowired
-    private TrackService trackService;
+    private ITrackService trackService;
 
     //Pantalla initial.
     @GetMapping
@@ -38,12 +38,6 @@ public class ArtistController {
         return artistService.getArtists();
     }
 
-    /**
-    //Muestra un rank de artistias --> Hacer de new.
-    @GetMapping("/rank")
-    public List<Artist> retriveArtists(){
-        return artistService.getArtists();
-    } **/
 
     //Crea un nuevo artista.
     @PostMapping(path = "/")
@@ -63,11 +57,4 @@ public class ArtistController {
         artistService.deleteArtist(id);
         return "Artista eliminado con exito";
     }
-
-    /**
-    //Filta por id, las canciones mas escuchadas --> Replantear.
-    @GetMapping("/{id}/songs/rank")
-    public List<Track> getTracks(){
-        return artistService.getTracks();
-    }**/
 }
