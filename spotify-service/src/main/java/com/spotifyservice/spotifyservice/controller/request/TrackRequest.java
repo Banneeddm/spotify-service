@@ -15,8 +15,8 @@ public class TrackRequest {
 
     private Long id;
     private String name;
-    private Long idArtist;
-    private Long idAlbum;
+    private Artist idArtist;
+    private Album idAlbum;
     private Long reproduction;
     private Double duration;
 

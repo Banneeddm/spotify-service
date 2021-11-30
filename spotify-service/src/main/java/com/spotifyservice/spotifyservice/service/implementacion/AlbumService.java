@@ -66,8 +66,7 @@ public class AlbumService implements IAlbumService {
         }
         album.setIdArtist(artist);
         albumRepository.save(album);
-        AlbumResponse albumResponse = albumResponseMapper.apply(album);
-        return albumResponse;
+        return albumResponseMapper.apply(album);
     }
 
     public AlbumResponse editAlbum(Long id, AlbumRequest albumRequest){
@@ -84,9 +83,7 @@ public class AlbumService implements IAlbumService {
             album.setIdArtist(artist);
         }
         albumRepository.save(album);
-        AlbumResponse albumResponse = albumResponseMapper.apply(album);
-
-        return albumResponse;
+        return albumResponseMapper.apply(album);
     }
 
     public Boolean deleteAlbum(Long id){

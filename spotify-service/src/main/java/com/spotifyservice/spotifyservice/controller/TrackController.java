@@ -1,6 +1,7 @@
 package com.spotifyservice.spotifyservice.controller;
 
 import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
+import com.spotifyservice.spotifyservice.controller.response.TrackResponse;
 import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.service.ITrackService;
 import com.spotifyservice.spotifyservice.service.implementacion.TrackService;
@@ -24,7 +25,7 @@ public class TrackController {
 
     //Filtrar por id.
     @GetMapping("/{id}")
-    public Track retriveTrack(@PathVariable Long id){
+    public TrackResponse retriveTrack(@PathVariable Long id){
         return trackService.getTrack(id);
     }
 
@@ -36,13 +37,13 @@ public class TrackController {
 
     //Crear new track.
     @PostMapping(path = "/")
-    public Track createTrack(@RequestBody TrackRequest trackRequest){
+    public TrackResponse createTrack(@RequestBody TrackRequest trackRequest){
         return trackService.createTrack(trackRequest);
     }
 
     //Editar Track.
     @PutMapping("{id}")
-    public Track editTrack(@PathVariable Long id, @RequestBody TrackRequest trackRequest){
+    public TrackResponse editTrack(@PathVariable Long id, @RequestBody TrackRequest trackRequest){
         return trackService.editTrack(id, trackRequest);
     }
 
