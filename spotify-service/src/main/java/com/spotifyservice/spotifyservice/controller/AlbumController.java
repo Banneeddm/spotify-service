@@ -2,9 +2,10 @@ package com.spotifyservice.spotifyservice.controller;
 
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.domain.Album;
-import com.spotifyservice.spotifyservice.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.spotifyservice.spotifyservice.service.AlbumService;
+
 
 import java.lang.Long;
 

@@ -4,6 +4,7 @@ import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.service.ArtistService;
 import com.spotifyservice.spotifyservice.service.TrackService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
