@@ -99,8 +99,20 @@ public class TrackService implements ITrackService {
         return trackResponseMapper.apply(track);
     }
 
-    public Track deleteTrack(Long id){
+    public Boolean deleteTrack(Long id){
+        Track track = trackRepository.findByIdTrack(id);
+        if(track == null){
+            throw new CustomException("Invalid ID Track");
+        }
+        Album album = albumRepository.findByIdAlbum(track.getIdAlbum().getIdAlbum());
+        if(album == null){
+            throw new CustomException("Invalid ID Album");
+        }else{track.setIdAlbum(null);}
+        Artist artist = artistRepository.findByIdArtist(track.getIdArtist().getIdArtist());
+        if(artist == null){
+            throw new CustomException("Invalid ID Artist");
+        }else{track.setIdArtist(null);}
         trackRepository.deleteById(id);
-        return null;
+        return true;
     }
 }

@@ -4,7 +4,6 @@ import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
 import com.spotifyservice.spotifyservice.controller.response.TrackResponse;
 import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.service.ITrackService;
-import com.spotifyservice.spotifyservice.service.implementacion.TrackService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +48,8 @@ public class TrackController {
 
     //Borrar track.
     @DeleteMapping("/{id}")
-    public String deleteTrack(@PathVariable Long id){
+    public Boolean deleteTrack(@PathVariable Long id){
         trackService.deleteTrack(id);
-        return "Track eliminado con exito";
+        return true;
     }
 }

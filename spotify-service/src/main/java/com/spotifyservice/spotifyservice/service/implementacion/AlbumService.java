@@ -6,11 +6,13 @@ import com.spotifyservice.spotifyservice.configuration.exeptions.NullPointerExce
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.controller.response.AlbumResponse;
 import com.spotifyservice.spotifyservice.domain.Album;
+import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.domain.mapper.AlbumMapper;
 import com.spotifyservice.spotifyservice.domain.Artist;
 import com.spotifyservice.spotifyservice.domain.mapper.AlbumResponseMapper;
 import com.spotifyservice.spotifyservice.repository.AlbumRepository;
 import com.spotifyservice.spotifyservice.repository.ArtistRepository;
+import com.spotifyservice.spotifyservice.repository.TrackRepository;
 import com.spotifyservice.spotifyservice.service.IAlbumService;
 import com.spotifyservice.spotifyservice.service.IArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,9 @@ public class AlbumService implements IAlbumService {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private TrackRepository trackRepository;
 
 
     public AlbumResponse getAlbum(Long id){
@@ -91,6 +96,10 @@ public class AlbumService implements IAlbumService {
         if(album == null){
             throw new CustomException("Album no encontrado");
         }
+        Track track = trackRepository.traerAlbumTrack(id);
+        if(track.getIdAlbum().getIdAlbum().equals(id)){
+            track.setIdAlbum(null);
+        }
         if(album.getIdArtist() == null){
             albumRepository.delete(album);
             return true;
@@ -110,6 +119,7 @@ public class AlbumService implements IAlbumService {
         List<Album> albumList = albumRepository.masDeDosAlbumsUnArtist(idArtist);
         for(Album album: albumList){
             album.setIdArtist(null);
+            albumRepository.save(album);
         }
     }
 }

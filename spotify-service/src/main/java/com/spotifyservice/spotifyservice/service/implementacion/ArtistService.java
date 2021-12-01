@@ -4,9 +4,11 @@ import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException
 import com.spotifyservice.spotifyservice.controller.request.ArtistRequest;
 import com.spotifyservice.spotifyservice.controller.response.ArtistResponse;
 import com.spotifyservice.spotifyservice.domain.Artist;
+import com.spotifyservice.spotifyservice.domain.Track;
 import com.spotifyservice.spotifyservice.domain.mapper.ArtistMapper;
 import com.spotifyservice.spotifyservice.domain.mapper.ArtistResponseMapper;
 import com.spotifyservice.spotifyservice.repository.ArtistRepository;
+import com.spotifyservice.spotifyservice.repository.TrackRepository;
 import com.spotifyservice.spotifyservice.service.IArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ public class ArtistService implements IArtistService {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private TrackRepository trackRepository;
 
 
     public ArtistResponse getArtist(Long id){
@@ -73,6 +78,10 @@ public class ArtistService implements IArtistService {
             throw new CustomException("Invalid ID");
         }
         albumService.setArtistNull(id);
+        Track track = trackRepository.traerArtistTrack(id);
+        if(track.getIdArtist().getIdArtist().equals(id)){
+            track.setIdArtist(null);
+        }
         artistRepository.deleteById(id);
         return true;
     }

@@ -5,6 +5,8 @@ import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
 import com.spotifyservice.spotifyservice.controller.response.TrackResponse;
 import com.spotifyservice.spotifyservice.domain.Track;
 
+import java.util.List;
+
 public interface ITrackService {
 
     public TrackResponse getTrack(Long id);
@@ -15,7 +17,7 @@ public interface ITrackService {
 
     public TrackResponse editTrack(Long id, TrackRequest trackRequest);
 
-    public Track deleteTrack(Long id);
+    public Boolean deleteTrack(Long id);
 
 
 }
