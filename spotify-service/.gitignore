@@ -19,7 +19,6 @@ IntelliJ IDEA
 *.iml
 *.ipr
 *.mvn
-asd
 
 NetBeans
 /nbproject/private/
