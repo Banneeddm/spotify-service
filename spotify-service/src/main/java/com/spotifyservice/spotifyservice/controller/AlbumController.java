@@ -1,7 +1,5 @@
 package com.spotifyservice.spotifyservice.controller;
 
-import com.spotifyservice.spotifyservice.configuration.exeptions.BadRequestException;
-import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException;
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.controller.response.AlbumResponse;
 import com.spotifyservice.spotifyservice.domain.Album;

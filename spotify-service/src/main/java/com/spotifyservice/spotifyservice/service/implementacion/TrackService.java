@@ -1,6 +1,6 @@
 package com.spotifyservice.spotifyservice.service.implementacion;
 
-import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException;
+import com.spotifyservice.spotifyservice.configuration.exceptions.CustomException;
 import com.spotifyservice.spotifyservice.controller.request.TrackRequest;
 import com.spotifyservice.spotifyservice.controller.response.TrackResponse;
 import com.spotifyservice.spotifyservice.domain.Album;

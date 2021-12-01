@@ -1,6 +1,6 @@
 package com.spotifyservice.spotifyservice.configuration;
 
-import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException;
+import com.spotifyservice.spotifyservice.configuration.exceptions.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

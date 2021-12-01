@@ -1,4 +1,4 @@
-package com.spotifyservice.spotifyservice.configuration.exeptions;
+package com.spotifyservice.spotifyservice.configuration.exceptions;
 
 public class NullPointerException extends RuntimeException{
 

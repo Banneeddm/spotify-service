@@ -1,8 +1,6 @@
 package com.spotifyservice.spotifyservice.service.implementacion;
 
-import com.spotifyservice.spotifyservice.configuration.exeptions.CustomException;
-import com.spotifyservice.spotifyservice.configuration.exeptions.NotFoundException;
-import com.spotifyservice.spotifyservice.configuration.exeptions.NullPointerException;
+import com.spotifyservice.spotifyservice.configuration.exceptions.CustomException;
 import com.spotifyservice.spotifyservice.controller.request.AlbumRequest;
 import com.spotifyservice.spotifyservice.controller.response.AlbumResponse;
 import com.spotifyservice.spotifyservice.domain.Album;
